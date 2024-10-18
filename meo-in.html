@@ -1,0 +1,50 @@
+<script type="text/html" data-template-name="meo-in">
+  <div class="form-row">
+    <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+    <input type="text" id="node-input-name" placeholder="Enter node name">
+  </div>
+  <div class="form-row">
+    <label for="node-input-device"><i class="fa fa-cogs"></i> Device ID</label>
+    <input type="text" id="node-input-device" placeholder="Enter device ID">
+  </div>
+  <div class="form-row">
+    <label for="node-input-sensor"><i class="fa fa-thermometer"></i> Sensor</label>
+    <select id="node-input-sensor">
+      <option value="mpu">6DoF MPU</option>
+      <option value="lsw">Limit switch</option>
+      <option value="lux">Light sensor</option>
+    </select>
+  </div>
+  <hr>
+</script>
+
+<script type="text/javascript">
+  RED.nodes.registerType('meo-in', {
+    category: 'MEO',
+    color: '#d8bfd8',
+    defaults: {
+      name: { value: '' },
+      deviceId: { value: '', required: true },
+      sensorType: { value: '', required: true },
+      url: {value: ''}
+    },
+    inputs: 0,
+    outputs: 1,
+    icon: 'bridge.svg',
+    label: function () {
+      return this.name || 'meo-in';
+    },
+    oneditprepare: function () {
+      $("#node-input-name").val(this.name);
+      $("#node-input-device").val(this.deviceId);
+      $("#node-input-sensor").val(this.sensorType);
+      $("#node-input-url").val(this.url);
+    },
+    oneditsave: function () {
+      this.name = $("#node-input-name").val();
+      this.deviceId = $("#node-input-device").val();
+      this.sensorType = $("#node-input-sensor").val();
+      this.url = $("#node-input-url").val();
+    }
+  });
+</script>
