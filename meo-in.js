@@ -6,15 +6,14 @@ module.exports = function(RED) {
 
     var defaultMQTTBrokerURL = 'mosquitto-mqtt:1883';
 
-    this.deviceId = config.deviceId;
-    this.sensorType = config.sensorType;
-    this.url = config.url ? config.url : defaultMQTTBrokerURL;
+    this.topic = config.topic;
+    this.url = config.url || defaultMQTTBrokerURL;
     this.options = null;
-    
+
     var node = this;
 
     var mqttBrokerURL = `mqtt://${node.url}`;
-    var topic = `meo3/${node.deviceId}/${node.sensorType}`;
+    var topic = node.topic;
 
     node.status({fill: 'yellow', shape: 'ring', text: 'connecting'});
     node.client = mqtt.connect(mqttBrokerURL, node.options);
@@ -45,7 +44,8 @@ module.exports = function(RED) {
       console.log('MQTT error:', error);
     });
 
-    node.client.on('close', function() {
+    node.on('close', function() {
+      node.client.end();
       node.status({fill: 'red', shape: 'ring', text: 'disconnected'});
       console.log('MQTT disconnected');
     });
