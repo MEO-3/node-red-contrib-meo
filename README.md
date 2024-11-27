@@ -28,3 +28,7 @@ After installing MEO Node, you can use it in NodeRED. You can find MEO Node in t
 MEO Node is created using NodeRED and JavaScript. MEO Node uses MQTT protocol to interact with devices that use MEO FDK. MEO Link node communicates with MEO Link IoT Application by UDP to interact with smart production devices that use Rogo IoT Platform.
 
 Note: MEO Link IoT is a desktop application written in Kotlin, using Rogo SDK to interact with Rogo IoT Platform. MEO Link IoT is currently in development and will be released soon.
+
+## Contributing
+
+We welcome contributions to MEO Node project. You can contribute to MEO Node by creating an issue or pull request in this repository. We will review your contribution and merge it if it meets our requirements.
