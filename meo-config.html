@@ -2,7 +2,7 @@
     RED.nodes.registerType('meo-config', {
         category: 'config',
         defaults: {
-            broker: { value: "localhost", required: true },
+            broker: { value: "meo-open-service", required: true },
             port: { value: 1883, required: true, validate: RED.validators.number() },
             api_url: { value: "http://meo-open-service:7000", required: true }
         },

@@ -19,17 +19,20 @@
             var deviceSelect = $("#node-input-device-id");
             var currentDev = this.device_id;
             
-            // Populate Devices
-            $.getJSON("http://meo-open-service:7000/api/devices", function(data) {
+            $.getJSON("http://meo-open-service.local:7000/api/devices", function(data) {
+                deviceSelect.empty();
                 if(data && Array.isArray(data)) {
                     data.forEach(function(dev) {
                         $("<option/>")
                             .val(dev.id)
-                            .text(dev.label)
+                            .text(dev.label + " (" + dev.id + ")")
                             .appendTo(deviceSelect);
                     });
-                    deviceSelect.val(currentDev);
+                    if (currentDev) { deviceSelect.val(currentDev); }
                 }
+            }).fail(function() {
+                deviceSelect.empty();
+                $("<option/>").val(currentDev).text(currentDev || "Service Unreachable").appendTo(deviceSelect);
             });
         }
     });
@@ -46,7 +49,9 @@
     </div>
     <div class="form-row">
         <label for="node-input-device-id"><i class="fa fa-microchip"></i> Device</label>
-        <input type="text" id="node-input-device-id" placeholder="Select Device">
+        <select id="node-input-device-id" style="width:70%">
+            <option value="" disabled selected>Loading devices...</option>
+        </select>
     </div>
     <div class="form-row">
         <label for="node-input-feature_name"><i class="fa fa-cogs"></i> Feature</label>
