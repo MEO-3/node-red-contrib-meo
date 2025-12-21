@@ -20,7 +20,7 @@
             var currentDev = this.device_id;
             
             // Populate Devices
-            $.getJSON("http://localhost:7000/api/devices", function(data) {
+            $.getJSON("http://meo-open-service:7000/api/devices", function(data) {
                 if(data && Array.isArray(data)) {
                     data.forEach(function(dev) {
                         $("<option/>")

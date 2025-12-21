@@ -20,7 +20,7 @@
             var currentVal = this.device_id;
             
             // Assuming the browser can reach the gateway API
-            $.getJSON("http://localhost:7000/api/devices", function(data) {
+            $.getJSON("http://meo-open-service:7000/api/devices", function(data) {
                 if(data && Array.isArray(data)) {
                     // Clear existing (except the 'All Devices' option if you want one)
                     // select.empty(); 
