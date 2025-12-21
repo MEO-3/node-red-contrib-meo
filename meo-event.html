@@ -15,15 +15,12 @@
             return this.name || "Meo Event";
         },
         oneditprepare: function() {
-            var select = $("#node-input-device-id");
+            // FIX: Selector must match the ID with underscore
+            var select = $("#node-input-device_id");
             var currentVal = this.device_id;
             
-            // fetch devices
             $.getJSON("http://meo-open-service.local:7000/api/devices", function(data) {
-                // Clear "Loading..."
                 select.empty();
-                
-                // Add "Any Device" option
                 $("<option/>").val("+").text("Any Device (Wildcard)").appendTo(select);
 
                 if(data && Array.isArray(data)) {
@@ -34,13 +31,10 @@
                             .appendTo(select);
                     });
                 }
-                // Restore saved value
                 if (currentVal) { select.val(currentVal); }
             }).fail(function() {
-                // Fallback if API fails
                 select.empty();
-                $("<option/>").val(currentVal).text(currentVal || "Service Unreachable - Enter ID manually").appendTo(select);
-                console.log("Failed to connect to MEO Service API.");
+                $("<option/>").val(currentVal).text(currentVal || "Service Unreachable").appendTo(select);
             });
         }
     });
@@ -56,8 +50,8 @@
         <input type="text" id="node-input-server">
     </div>
     <div class="form-row">
-        <label for="node-input-device-id"><i class="fa fa-microchip"></i> Device</label>
-        <select id="node-input-device-id" style="width:70%">
+        <label for="node-input-device_id"><i class="fa fa-microchip"></i> Device</label>
+        <select id="node-input-device_id" style="width:70%">
             <option value="" disabled selected>Loading devices...</option>
         </select>
     </div>
