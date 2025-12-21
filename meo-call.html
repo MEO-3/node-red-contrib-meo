@@ -1,0 +1,55 @@
+<script type="text/javascript">
+    RED.nodes.registerType('meo-call', {
+        category: 'MEO',
+        color: '#d8bfd8',
+        defaults: {
+            name: { value: "" },
+            server: { value: "", type: "meo-config", required: true },
+            device_id: { value: "", required: true },
+            feature_name: { value: "", required: true }
+        },
+        inputs: 1,
+        outputs: 0,
+        icon: "bridge.svg",
+        align: "right",
+        label: function() {
+            return this.name || "Call Feature";
+        },
+        oneditprepare: function() {
+            var deviceSelect = $("#node-input-device-id");
+            var currentDev = this.device_id;
+            
+            // Populate Devices
+            $.getJSON("http://localhost:7000/api/devices", function(data) {
+                if(data && Array.isArray(data)) {
+                    data.forEach(function(dev) {
+                        $("<option/>")
+                            .val(dev.id)
+                            .text(dev.label)
+                            .appendTo(deviceSelect);
+                    });
+                    deviceSelect.val(currentDev);
+                }
+            });
+        }
+    });
+</script>
+
+<script type="text/html" data-template-name="meo-call">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-server"><i class="fa fa-globe"></i> Config</label>
+        <input type="text" id="node-input-server">
+    </div>
+    <div class="form-row">
+        <label for="node-input-device-id"><i class="fa fa-microchip"></i> Device</label>
+        <input type="text" id="node-input-device-id" placeholder="Select Device">
+    </div>
+    <div class="form-row">
+        <label for="node-input-feature_name"><i class="fa fa-cogs"></i> Feature</label>
+        <input type="text" id="node-input-feature_name" placeholder="e.g. turn_on">
+    </div>
+</script>

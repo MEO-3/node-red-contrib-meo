@@ -1,0 +1,63 @@
+<script type="text/javascript">
+    RED.nodes.registerType('meo-event', {
+        category: 'MEO',
+        color: '#d8bfd8',
+        defaults: {
+            name: { value: "" },
+            server: { value: "", type: "meo-config", required: true },
+            device_id: { value: "" },
+            event_name: { value: "" }
+        },
+        inputs: 0,
+        outputs: 1,
+        icon: "bridge.svg",
+        label: function() {
+            return this.name || "Meo Event";
+        },
+        oneditprepare: function() {
+            // Try to fetch devices from local API to populate dropdown
+            var select = $("#node-input-device-id");
+            var currentVal = this.device_id;
+            
+            // Assuming the browser can reach the gateway API
+            $.getJSON("http://localhost:7000/api/devices", function(data) {
+                if(data && Array.isArray(data)) {
+                    // Clear existing (except the 'All Devices' option if you want one)
+                    // select.empty(); 
+                    // Add 'Any Device' option
+                    $("<option/>").val("+").text("Any Device").appendTo(select);
+
+                    data.forEach(function(dev) {
+                        $("<option/>")
+                            .val(dev.id)
+                            .text(dev.label + " (" + dev.id + ")")
+                            .appendTo(select);
+                    });
+                    select.val(currentVal);
+                }
+            }).fail(function() {
+                console.log("Could not fetch MEO devices. Is the service running?");
+                // Fallback: If fetch fails, the input acts as a text box (which is standard behavior for <input>)
+            });
+        }
+    });
+</script>
+
+<script type="text/html" data-template-name="meo-event">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-server"><i class="fa fa-globe"></i> Config</label>
+        <input type="text" id="node-input-server">
+    </div>
+    <div class="form-row">
+        <label for="node-input-device-id"><i class="fa fa-microchip"></i> Device</label>
+        <input type="text" id="node-input-device-id" placeholder="Device ID (or + for all)">
+    </div>
+    <div class="form-row">
+        <label for="node-input-event_name"><i class="fa fa-bell"></i> Event</label>
+        <input type="text" id="node-input-event_name" placeholder="e.g. sensor_update (optional)">
+    </div>
+</script>

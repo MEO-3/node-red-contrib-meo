@@ -1,0 +1,28 @@
+<script type="text/javascript">
+    RED.nodes.registerType('meo-config', {
+        category: 'config',
+        defaults: {
+            broker: { value: "localhost", required: true },
+            port: { value: 1883, required: true, validate: RED.validators.number() },
+            api_url: { value: "http://localhost:7000", required: true }
+        },
+        label: function() {
+            return this.broker + ":" + this.port;
+        }
+    });
+</script>
+
+<script type="text/html" data-template-name="meo-config">
+    <div class="form-row">
+        <label for="node-config-input-broker"><i class="fa fa-globe"></i> MQTT Host</label>
+        <input type="text" id="node-config-input-broker" placeholder="localhost">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-port"><i class="fa fa-server"></i> MQTT Port</label>
+        <input type="text" id="node-config-input-port" placeholder="1883">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-api_url"><i class="fa fa-link"></i> MEO API URL</label>
+        <input type="text" id="node-config-input-api_url" placeholder="http://localhost:7000">
+    </div>
+</script>

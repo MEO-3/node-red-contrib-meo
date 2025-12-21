@@ -9,9 +9,9 @@
   "license": "ISC",
   "node-red": {
     "nodes": {
-      "meo-in": "meo-in.js",
-      "meo-out": "meo-out.js",
-      "meo-link": "meo-link.js"
+      "meo-config": "meo-config.js",
+      "meo-event": "meo-event.js",
+      "meo-call": "meo-call.js"
     }
   },
   "dependencies": {
