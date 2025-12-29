@@ -20,7 +20,7 @@ module.exports = function(RED) {
             client.on('connect', function() {
                 node.status({fill: "green", shape: "dot", text: "connected"});
                 // Subscribe to all device events to ensure we catch everything, then filter
-                client.subscribe('meo/+/event', function(err) {
+                client.subscribe(`meo/+/event/${targetEvent}`, function(err) {
                     if (err) node.error("Subscription error: " + err);
                 });
             });
